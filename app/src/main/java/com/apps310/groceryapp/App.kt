@@ -1,5 +1,6 @@
 package com.apps310.groceryapp
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +11,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,11 +31,11 @@ fun App(productViewModel: ProductViewModel) {
     if(state.showDialog){
         ProductDialog(oldProduct = state.selectedProduct) { product ->
             if(state.selectedProduct != null && product != null){
-                productViewModel.updateProduct(product);
+                productViewModel.updateProduct(product)
             }else if(product != null){
-                productViewModel.addProduct(product);
+                productViewModel.addProduct(product)
             }
-            productViewModel.toggleDialog(product = null, openDialog = false);
+            productViewModel.toggleDialog(product = null, openDialog = false)
         }
     }
 
@@ -51,7 +53,7 @@ fun App(productViewModel: ProductViewModel) {
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        productViewModel.toggleDialog(product = null, openDialog = true);
+                        productViewModel.toggleDialog(product = null, openDialog = true)
                     },
                     content = {
                         Icon(
@@ -62,22 +64,30 @@ fun App(productViewModel: ProductViewModel) {
                 )
             },
             content = { innerPadding ->
-                LazyColumn(
+                Column (
                     modifier = Modifier.padding(innerPadding)
                 ) {
-                    itemsIndexed(state.products) { index, product ->
-                        ProductItem(
-                            product = product,
-                            index = index,
-                            onEditBtnClicked = {
-                                productViewModel.toggleDialog(product = product, openDialog = true);
-                            },
-                            onDeleteBtnClicked = {
-                                productViewModel.removeProduct(product);
-                            },
-                        )
+                    if (state.isLoading){
+                        LinearProgressIndicator()
+                    }
+                    LazyColumn(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        itemsIndexed(state.products) { index, product ->
+                            ProductItem(
+                                product = product,
+                                index = index,
+                                onEditBtnClicked = {
+                                    productViewModel.toggleDialog(product = product, openDialog = true)
+                                },
+                                onDeleteBtnClicked = {
+                                    productViewModel.removeProduct(product)
+                                },
+                            )
+                        }
                     }
                 }
+
             }
         )
     }

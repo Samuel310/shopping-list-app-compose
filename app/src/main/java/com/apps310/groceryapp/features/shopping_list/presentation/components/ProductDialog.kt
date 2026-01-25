@@ -21,9 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.apps310.groceryapp.features.shopping_list.data.Product
+import com.apps310.groceryapp.features.shopping_list.domain.model.Product
 import com.apps310.groceryapp.features.shopping_list.presentation.view_model.ProductDialogViewModel
-import kotlin.random.Random
+import java.util.UUID
 
 @Composable
 fun ProductDialog(
@@ -50,7 +50,7 @@ fun ProductDialog(
                 TextField(
                     value = state.name,
                     onValueChange = { value ->
-                        productDialogViewModel.onNameChanged(value);
+                        productDialogViewModel.onNameChanged(value)
                     },
                     isError = state.nameErrorMsg != null,
                     label = {
@@ -77,7 +77,7 @@ fun ProductDialog(
                 TextField(
                     value = state.qty,
                     onValueChange = { value ->
-                        productDialogViewModel.onQtyChanged(value);
+                        productDialogViewModel.onQtyChanged(value)
                     },
                     isError = state.qtyErrorMsg != null,
                     label = {
@@ -102,13 +102,13 @@ fun ProductDialog(
                 Button(onClick = {
                     val qty = state.qty.toIntOrNull()
                     if(state.qtyErrorMsg == null && state.nameErrorMsg == null && qty != null){
-                        var id = oldProduct?.id ?: Random.nextInt(Int.MAX_VALUE)
+                        var id = oldProduct?.id ?: UUID.randomUUID().toString()
                         val newProduct = Product(
                             id = id,
                             name = state.name,
                             qty = qty,
-                        );
-                        onDismiss(newProduct);
+                        )
+                        onDismiss(newProduct)
                     }
                 }) {
                     Text("Add")

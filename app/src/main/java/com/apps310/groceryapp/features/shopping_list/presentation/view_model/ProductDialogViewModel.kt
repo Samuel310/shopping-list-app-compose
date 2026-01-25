@@ -1,7 +1,7 @@
 package com.apps310.groceryapp.features.shopping_list.presentation.view_model
 
 import androidx.lifecycle.ViewModel
-import com.apps310.groceryapp.features.shopping_list.data.Product
+import com.apps310.groceryapp.features.shopping_list.domain.model.Product
 import com.apps310.groceryapp.features.shopping_list.presentation.state.ProductDialogVMState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

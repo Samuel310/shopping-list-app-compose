@@ -15,7 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.apps310.groceryapp.features.shopping_list.data.Product
+import com.apps310.groceryapp.features.shopping_list.domain.model.Product
 
 @Composable
 fun ProductItem(index: Int, product: Product, onDeleteBtnClicked : () -> Unit, onEditBtnClicked : () -> Unit){
