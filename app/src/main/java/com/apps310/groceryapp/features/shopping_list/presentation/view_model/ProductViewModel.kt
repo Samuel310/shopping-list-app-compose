@@ -34,26 +34,6 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel(){
         }
     }
 
-    fun addProduct(id: String?, name: String, qty: Int) {
-        viewModelScope.launch {
-            setLoading(true)
-            try {
-                repository.insertProduct(
-                    Product(
-                        id = id ?: UUID.randomUUID().toString(),
-                        name = name,
-                        qty = qty
-                    )
-                )
-            } catch (e: Exception) {
-                //TODO: implement logger
-            } finally {
-                setLoading(false)
-            }
-        }
-    }
-
-    @Deprecated("Do not pass Product directly")
     fun addProduct(product : Product){
         viewModelScope.launch {
             setLoading(true)
@@ -94,7 +74,7 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel(){
     }
 
     fun toggleDialog(product: Product?, openDialog: Boolean){
-        _state.value = _state.value.copy(selectedProduct = product, showDialog = openDialog);
+        _state.value = _state.value.copy(selectedProduct = product, showDialog = openDialog)
     }
 
     private fun setLoading(value: Boolean) {
