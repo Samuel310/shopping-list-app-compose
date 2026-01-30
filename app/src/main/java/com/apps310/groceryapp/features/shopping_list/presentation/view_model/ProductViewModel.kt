@@ -5,14 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.apps310.groceryapp.features.shopping_list.domain.model.Product
 import com.apps310.groceryapp.features.shopping_list.domain.repository.ProductRepository
 import com.apps310.groceryapp.features.shopping_list.presentation.state.ProductVMState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import java.util.UUID
+import javax.inject.Inject
 
 
-class ProductViewModel(private val repository: ProductRepository) : ViewModel(){
+@HiltViewModel
+class ProductViewModel @Inject constructor(private val repository: ProductRepository) : ViewModel(){
 
     private val _state = MutableStateFlow(ProductVMState())
     val state: StateFlow<ProductVMState> = _state

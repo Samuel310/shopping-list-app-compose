@@ -15,16 +15,17 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps310.groceryapp.features.shopping_list.presentation.ui.components.ProductDialog
 import com.apps310.groceryapp.features.shopping_list.presentation.ui.components.ProductItem
 import com.apps310.groceryapp.features.shopping_list.presentation.view_model.ProductViewModel
 
 @Composable
 fun ShoppingListScreen(productViewModel: ProductViewModel){
-    val state by productViewModel.state.collectAsState()
+
+    val state by productViewModel.state.collectAsStateWithLifecycle();
 
     if(state.showDialog){
         ProductDialog(oldProduct = state.selectedProduct) { product ->

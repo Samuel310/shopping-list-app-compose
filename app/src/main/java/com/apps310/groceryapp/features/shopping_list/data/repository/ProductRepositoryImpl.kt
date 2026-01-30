@@ -7,8 +7,9 @@ import com.apps310.groceryapp.features.shopping_list.domain.model.Product
 import com.apps310.groceryapp.features.shopping_list.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class ProductRepositoryImpl(private val dao: ProductDao) : ProductRepository {
+class ProductRepositoryImpl @Inject constructor(private val dao: ProductDao) : ProductRepository {
 
     override fun getProducts(): Flow<List<Product>> {
         return dao.getProducts().map { entities ->

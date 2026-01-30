@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.android.compiler)
     kapt(libs.androidx.room.compiler)
     testImplementation(libs.junit)
