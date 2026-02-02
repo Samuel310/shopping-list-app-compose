@@ -11,7 +11,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.apps310.groceryapp"
+        applicationId = "com.zillotrix.shoppinglist"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
