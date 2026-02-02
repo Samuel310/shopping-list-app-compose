@@ -1,8 +1,13 @@
 package com.apps310.groceryapp.features.shopping_list.presentation.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -16,9 +21,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps310.groceryapp.features.shopping_list.presentation.ui.components.EmptyListLottieAnimation
 import com.apps310.groceryapp.features.shopping_list.presentation.ui.components.ProductDialog
 import com.apps310.groceryapp.features.shopping_list.presentation.ui.components.ProductItem
 import com.apps310.groceryapp.features.shopping_list.presentation.view_model.ProductViewModel
@@ -64,25 +71,31 @@ fun ShoppingListScreen(productViewModel: ProductViewModel){
         },
         content = { innerPadding ->
             Column (
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier.padding(innerPadding).fillMaxWidth().fillMaxHeight(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 if (state.isLoading){
                     LinearProgressIndicator()
                 }
-                LazyColumn(
-                    modifier = Modifier.weight(1f).padding(8.dp)
-                ) {
-                    itemsIndexed(state.products) { index, product ->
-                        ProductItem(
-                            product = product,
-                            index = index,
-                            onEditBtnClicked = {
-                                productViewModel.toggleDialog(product = product, openDialog = true)
-                            },
-                            onDeleteBtnClicked = {
-                                productViewModel.removeProduct(product)
-                            },
-                        )
+                if(state.products.isEmpty()){
+                    EmptyListLottieAnimation()
+                }else{
+                    LazyColumn(
+                        modifier = Modifier.weight(1f).padding(8.dp)
+                    ) {
+                        itemsIndexed(state.products) { index, product ->
+                            ProductItem(
+                                product = product,
+                                index = index,
+                                onEditBtnClicked = {
+                                    productViewModel.toggleDialog(product = product, openDialog = true)
+                                },
+                                onDeleteBtnClicked = {
+                                    productViewModel.removeProduct(product)
+                                },
+                            )
+                        }
                     }
                 }
             }
