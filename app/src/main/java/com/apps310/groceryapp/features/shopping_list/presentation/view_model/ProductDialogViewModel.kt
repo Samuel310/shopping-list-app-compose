@@ -36,6 +36,10 @@ class ProductDialogViewModel(product: Product?) : ViewModel(){
         if(value.isEmpty()){
             errorMsg = "Quantity cannot be empty"
         }
+        val parsedQty = value.toIntOrNull()
+        if(parsedQty == null){
+            errorMsg = "Enter a valid quantity."
+        }
         _state.value = _state.value.copy(
             qty = value,
             qtyErrorMsg = errorMsg

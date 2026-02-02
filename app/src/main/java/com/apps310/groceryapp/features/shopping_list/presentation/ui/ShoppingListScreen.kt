@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps310.groceryapp.features.shopping_list.presentation.ui.components.ProductDialog
 import com.apps310.groceryapp.features.shopping_list.presentation.ui.components.ProductItem
@@ -69,7 +70,7 @@ fun ShoppingListScreen(productViewModel: ProductViewModel){
                     LinearProgressIndicator()
                 }
                 LazyColumn(
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f).padding(8.dp)
                 ) {
                     itemsIndexed(state.products) { index, product ->
                         ProductItem(
