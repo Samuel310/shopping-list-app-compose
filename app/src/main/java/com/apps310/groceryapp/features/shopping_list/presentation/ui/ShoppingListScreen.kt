@@ -2,6 +2,7 @@ package com.apps310.groceryapp.features.shopping_list.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps310.groceryapp.features.shopping_list.presentation.ui.components.EmptyListLottieAnimation
+import com.apps310.groceryapp.features.shopping_list.presentation.ui.components.EmptyListPlaceHolder
 import com.apps310.groceryapp.features.shopping_list.presentation.ui.components.ProductDialog
 import com.apps310.groceryapp.features.shopping_list.presentation.ui.components.ProductItem
 import com.apps310.groceryapp.features.shopping_list.presentation.view_model.ProductViewModel
@@ -75,12 +76,20 @@ fun ShoppingListScreen(productViewModel: ProductViewModel){
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (state.isLoading){
-                    LinearProgressIndicator()
-                }
                 if(state.products.isEmpty()){
-                    EmptyListLottieAnimation()
+                    EmptyListPlaceHolder()
+                }
+                if (state.isLoading){
+                    val progressModifier : Modifier = if(state.products.isEmpty()){
+                        Modifier.height(4.dp).width(150.dp)
+                    }else{
+                        Modifier.height(4.dp).fillMaxWidth()
+                    }
+                    LinearProgressIndicator(modifier = progressModifier)
                 }else{
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
+                if(state.products.isNotEmpty()){
                     LazyColumn(
                         modifier = Modifier.weight(1f).padding(8.dp)
                     ) {
@@ -95,6 +104,9 @@ fun ShoppingListScreen(productViewModel: ProductViewModel){
                                     productViewModel.removeProduct(product)
                                 },
                             )
+                            if (index < state.products.lastIndex){
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
                         }
                     }
                 }

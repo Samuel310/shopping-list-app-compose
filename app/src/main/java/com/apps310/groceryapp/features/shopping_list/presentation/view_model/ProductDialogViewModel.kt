@@ -39,6 +39,8 @@ class ProductDialogViewModel(product: Product?) : ViewModel(){
         val parsedQty = value.toIntOrNull()
         if(parsedQty == null){
             errorMsg = "Enter a valid quantity."
+        }else if(parsedQty <= 0){
+            errorMsg = "Enter quantity greater than 0."
         }
         _state.value = _state.value.copy(
             qty = value,
