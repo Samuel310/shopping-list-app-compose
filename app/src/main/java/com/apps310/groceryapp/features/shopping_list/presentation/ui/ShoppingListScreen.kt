@@ -94,6 +94,9 @@ fun ShoppingListScreen(productViewModel: ProductViewModel){
                         modifier = Modifier.weight(1f).padding(8.dp)
                     ) {
                         itemsIndexed(state.products) { index, product ->
+                            if (index == 0){
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
                             ProductItem(
                                 product = product,
                                 index = index,

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
@@ -22,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,6 +43,19 @@ fun ProductDialog(
     }
 
     val state by productDialogViewModel.state.collectAsState()
+
+    fun onSubmit(){
+        val qty = state.qty.toIntOrNull()
+        if(state.qtyErrorMsg == null && state.nameErrorMsg == null && qty != null){
+            val id = oldProduct?.id ?: UUID.randomUUID().toString()
+            val newProduct = Product(
+                id = id,
+                name = state.name,
+                qty = qty,
+            )
+            onDismiss(newProduct)
+        }
+    }
 
     Dialog(onDismissRequest = { onDismiss(null) }) {
         Card(
@@ -63,6 +78,8 @@ fun ProductDialog(
                     onValueChange = { value ->
                         productDialogViewModel.onNameChanged(value)
                     },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = { onSubmit() }),
                     isError = state.nameErrorMsg != null,
                     label = {
                         Text("Name")
@@ -90,7 +107,8 @@ fun ProductDialog(
                     onValueChange = { value ->
                         productDialogViewModel.onQtyChanged(value)
                     },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = { onSubmit() }),
                     isError = state.qtyErrorMsg != null,
                     label = {
                         Text("Qty")
@@ -113,18 +131,7 @@ fun ProductDialog(
                 Spacer(Modifier.height(16.dp))
                 Button(
                     shape = RoundedCornerShape(8.dp),
-                    onClick = {
-                        val qty = state.qty.toIntOrNull()
-                        if(state.qtyErrorMsg == null && state.nameErrorMsg == null && qty != null){
-                            val id = oldProduct?.id ?: UUID.randomUUID().toString()
-                            val newProduct = Product(
-                                id = id,
-                                name = state.name,
-                                qty = qty,
-                            )
-                            onDismiss(newProduct)
-                        }
-                    }
+                    onClick = {onSubmit()}
                 ) {
                     Text("Add")
                 }

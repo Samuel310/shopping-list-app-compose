@@ -27,38 +27,44 @@ import com.apps310.groceryapp.features.shopping_list.domain.model.Product
 
 @Composable
 fun ProductItem(index: Int, product: Product, onDeleteBtnClicked : () -> Unit, onEditBtnClicked : () -> Unit){
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(width = 2.dp, color = Color.Gray.copy(0.2f), shape = RoundedCornerShape(8.dp))
-            .padding(all = 8.dp),
-        content = {
-            Text("${index + 1}.", color = Color.Gray)
-            Spacer(modifier = Modifier.width(16.dp))
-            Column (modifier = Modifier.weight(1f)) {
-                Text(product.name, color = Color.Black.copy(0.8f), fontWeight = FontWeight.Bold)
-                Row {
-                    Text("Qty", color = Color.Black.copy(0.8f))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("${product.qty}", color = Color.Black.copy(0.8f))
+    Surface(
+        shadowElevation = 9.dp,
+        shape = RoundedCornerShape(10.dp),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                //.border(width = 1.dp, color = Color.Gray.copy(0.2f), shape = RoundedCornerShape(8.dp))
+                .padding(all = 8.dp),
+            content = {
+                Text("${index + 1}.", color = Color.Gray)
+                Spacer(modifier = Modifier.width(16.dp))
+                Column (modifier = Modifier.weight(1f)) {
+                    Text(product.name, color = Color.Black.copy(0.8f), fontWeight = FontWeight.Bold)
+                    Row {
+                        Text("Qty", color = Color.Black.copy(0.8f))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("${product.qty}", color = Color.Black.copy(0.8f))
+                    }
+                }
+                IconButton(onClick = onEditBtnClicked) {
+                    Icon(
+                        imageVector =  Icons.Filled.Edit,
+                        contentDescription = "Edit",
+                        tint = Color.Black.copy(0.6f),
+                    )
+                }
+                IconButton(onClick = onDeleteBtnClicked) {
+                    Icon(
+                        imageVector =  Icons.Filled.Delete,
+                        contentDescription = "Delete",
+                        tint = Color.Black.copy(0.6f),
+                    )
                 }
             }
-            IconButton(onClick = onEditBtnClicked) {
-                Icon(
-                    imageVector =  Icons.Filled.Edit,
-                    contentDescription = "Edit",
-                    tint = Color.Black.copy(0.7f),
-                )
-            }
-            IconButton(onClick = onDeleteBtnClicked) {
-                Icon(
-                    imageVector =  Icons.Filled.Delete,
-                    contentDescription = "Delete",
-                    tint = Color.Black.copy(0.7f),
-                )
-            }
-        }
-    )
+        )
+    }
+
 }
 
 @Preview(name = "Product List Item")
