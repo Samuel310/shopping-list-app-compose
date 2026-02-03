@@ -8,14 +8,14 @@
         <item name="postSplashScreenTheme">@style/Theme.GroceryApp</item>
 
         <!-- Optional: background color of the splash screen -->
-        <item name="windowSplashScreenBackground">@color/purple_500</item>
+        <item name="android:windowSplashScreenBackground">@color/purple_500</item>
 
         <!-- Optional: Use your app's launcher icon or a specific drawable -->
-<!--        <item name="windowSplashScreenIcon">@drawable/ic_launcher_new_foreground</item>-->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+<!--                <item name="windowSplashScreenIcon">@drawable/ic_launcher_new_foreground</item>-->
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
 
         <!-- Optional: color behind the icon. Useful if there isn't enough contrast. -->
-         <item name="windowSplashScreenIconBackgroundColor">@color/purple_500</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/purple_500</item>
 
         <!-- Optional: Branding image (logo at the bottom). Design guidelines recommend against using this. -->
         <!-- <item name="windowSplashScreenBrandingImage">@drawable/branding_image</item> -->
