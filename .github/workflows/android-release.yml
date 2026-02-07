@@ -1,0 +1,96 @@
+name: Android Release CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump type"
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    name: Build & Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
+
+      - name: Create keystore.properties
+        run: |
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > keystore.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> keystore.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
+          echo "storeFile=keystore.jks" >> keystore.properties
+
+      - name: Read current version
+        id: version
+        run: |
+          VERSION_NAME=$(grep 'versionName *= *"' app/build.gradle.kts | sed 's/.*"\(.*\)".*/\1/')
+          VERSION_CODE=$(grep 'versionCode *= *' app/build.gradle.kts | sed 's/.*= *//')
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+
+      - name: Bump version
+        id: bump
+        run: |
+          IFS='.' read -r MAJOR MINOR PATCH <<< "${{ steps.version.outputs.version_name }}"
+          if [ "${{ github.event.inputs.bump }}" = "major" ]; then
+            MAJOR=$((MAJOR+1)); MINOR=0; PATCH=0
+          elif [ "${{ github.event.inputs.bump }}" = "minor" ]; then
+            MINOR=$((MINOR+1)); PATCH=0
+          else
+            PATCH=$((PATCH+1))
+          fi
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          NEW_CODE=$((${{ steps.version.outputs.version_code }} + 1))
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "new_code=$NEW_CODE" >> $GITHUB_OUTPUT
+
+      - name: Update build.gradle.kts
+        run: |
+          sed -i "s/versionName *= *\".*\"/versionName = \"${{ steps.bump.outputs.new_version }}\"/" app/build.gradle.kts
+          sed -i "s/versionCode *= *.*/versionCode = ${{ steps.bump.outputs.new_code }}/" app/build.gradle.kts
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add app/build.gradle.kts
+          git commit -m "chore: bump version to v${{ steps.bump.outputs.new_version }}"
+          git push
+
+      - name: Grant Gradle permission
+        run: chmod +x gradlew
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+        
+      - name: Rename APK with version
+        run: |
+          mv app/build/outputs/apk/release/app-release.apk  app/build/outputs/apk/release/shopping-list-app-v${{ steps.bump.outputs.new_version }}(${{ steps.bump.outputs.new_code }})-release.apk
+          
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.bump.outputs.new_version }}
+          name: Android Release v${{ steps.bump.outputs.new_version }}
+          files: app/build/outputs/apk/release/shopping-list-app-v${{ steps.bump.outputs.new_version }}(${{ steps.bump.outputs.new_code }})-release.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
