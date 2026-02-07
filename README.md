@@ -1,5 +1,7 @@
 # Shopping List App
 
+[![Android Release CI](https://github.com/Samuel310/shopping-list-app-compose/actions/workflows/android-release.yml/badge.svg?branch=master&event=release)](https://github.com/Samuel310/shopping-list-app-compose/actions/workflows/android-release.yml)
+
 A modern Android shopping list application built with **Kotlin** and **Jetpack Compose**, designed to help you easily manage your grocery shopping items.
 
 ## Features
