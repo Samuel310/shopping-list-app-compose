@@ -23,8 +23,12 @@ android {
         applicationId = "com.zillotrix.shoppinglist"
         minSdk = 24
         targetSdk = 35
-        versionCode = 0
-        versionName = "1.0.0"
+
+        val versionCodeEnv = System.getenv("VERSION_CODE")
+        val versionNameEnv = System.getenv("VERSION_NAME")
+        versionCode = versionCodeEnv?.toInt() ?: 1
+        versionName = versionNameEnv ?: "0.0.0"
+
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
