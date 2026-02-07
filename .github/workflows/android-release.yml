@@ -61,7 +61,7 @@ jobs:
           NEW_CODE=$(git rev-list --count HEAD)
 
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "new_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+          echo "new_code=$NEW_CODE" >> $GITHUB_OUTPUT
 
       - name: Grant Gradle permission
         run: chmod +x gradlew
