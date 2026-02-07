@@ -60,26 +60,16 @@ jobs:
           NEW_VERSION="$MAJOR.$MINOR.$PATCH"
           NEW_CODE=$(git rev-list --count HEAD)
 
-          echo "version_name=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-
-      - name: Update build.gradle.kts
-        run: |
-          sed -i "s/versionName *= *\".*\"/versionName = \"${{ steps.version.outputs.new_version }}\"/" app/build.gradle.kts
-          sed -i "s/versionCode *= *.*/versionCode = ${{ steps.version.outputs.new_code }}/" app/build.gradle.kts
-
-      - name: Commit version bump
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add app/build.gradle.kts
-          git commit -m "chore: bump version to v${{ steps.version.outputs.new_version }}"
-          git push
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "new_code=$VERSION_CODE" >> $GITHUB_OUTPUT
 
       - name: Grant Gradle permission
         run: chmod +x gradlew
 
       - name: Build Release APK
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.new_version }}
+          VERSION_CODE: ${{ steps.version.outputs.new_code }}
         run: ./gradlew assembleRelease
         
       - name: Rename APK with version
