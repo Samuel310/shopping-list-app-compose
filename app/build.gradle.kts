@@ -103,4 +103,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.lottie)
     implementation(libs.splashscreen)
+
+    implementation(libs.androidx.datastore.preferences)
 }

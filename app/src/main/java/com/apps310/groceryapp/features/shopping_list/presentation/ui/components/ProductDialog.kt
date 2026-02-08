@@ -13,7 +13,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -22,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -140,14 +138,12 @@ fun ProductDialog(
     }
 }
 
-@Preview(name = "Product Alert Dialog")
+@Preview(name = "Product Alert Dialog", showBackground = true)
 @Composable
 fun PreviewProductDialog(){
     GroceryAppTheme{
-        Surface(color = Color.White) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                ProductDialog(oldProduct = Product(id = "M", name = "Galaxy S24 Ultra", qty = 2 )) { }
-            }
+        Column(modifier = Modifier.padding(16.dp)) {
+            ProductDialog(oldProduct = Product(id = "M", name = "Galaxy S24 Ultra", qty = 2 )) { }
         }
     }
 }
