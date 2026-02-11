@@ -3,13 +3,12 @@ package com.apps310.groceryapp
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.apps310.groceryapp.core.ui.theme.GroceryAppTheme
 import com.apps310.groceryapp.core.ui.theme.ThemeMode
-import com.apps310.groceryapp.features.shopping_list.presentation.ui.ShoppingListScreen
-import com.apps310.groceryapp.features.shopping_list.presentation.view_model.ProductViewModel
 import com.apps310.groceryapp.features.theme.presentation.view_model.ThemeViewModel
 import androidx.compose.runtime.getValue
+import androidx.navigation.compose.rememberNavController
+import com.apps310.groceryapp.core.navigation.AppNavGraph
 
 @Composable
 fun App(themeViewModel: ThemeViewModel) {
@@ -21,7 +20,9 @@ fun App(themeViewModel: ThemeViewModel) {
         ThemeMode.SYSTEM -> isSystemInDarkTheme()
     }
 
+    val navController = rememberNavController()
+
     GroceryAppTheme(darkTheme = darkTheme){
-        ShoppingListScreen(hiltViewModel<ProductViewModel>())
+        AppNavGraph(navController)
     }
 }
