@@ -62,8 +62,8 @@ jobs:
 
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
           echo "new_code=$NEW_CODE" >> $GITHUB_OUTPUT
-          echo "New version name : $new_version"
-          echo "New version code : $new_code"
+          echo "New version name : $NEW_VERSION"
+          echo "New version code : $NEW_CODE"
 
       - name: Grant Gradle permission
         run: chmod +x gradlew
