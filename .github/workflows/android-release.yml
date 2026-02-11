@@ -80,7 +80,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.new_version }}
-          name: Android Release v${{ steps.version.outputs.new_version }}
+          name: v${{ steps.version.outputs.new_version }}
           files: "app/build/outputs/apk/release/shopping-list-app-v${{ steps.version.outputs.new_version }}(${{ steps.version.outputs.new_code }})-release.apk"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
