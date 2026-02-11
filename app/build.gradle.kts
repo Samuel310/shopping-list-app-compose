@@ -27,7 +27,7 @@ android {
         val versionCodeEnv = System.getenv("VERSION_CODE")
         val versionNameEnv = System.getenv("VERSION_NAME")
         versionCode = versionCodeEnv?.toInt() ?: 1
-        versionName = versionNameEnv ?: "0.0.0"
+        versionName = versionNameEnv ?: "1.0.0"
 
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
