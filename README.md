@@ -3,6 +3,12 @@
 [![Android Release CI](https://github.com/Samuel310/shopping-list-app-compose/actions/workflows/android-release.yml/badge.svg?branch=master)](https://github.com/Samuel310/shopping-list-app-compose/actions/workflows/android-release.yml)
 
 A modern Android shopping list application built with **Kotlin** and **Jetpack Compose**, designed to help you easily manage your grocery shopping items.
+The main motive of this application is to showcase,
+- Clean Architecture
+- MVVM
+- Best Practices
+- Room DB best practices
+- Dependency injection using Hilt
 
 ## Features
 
