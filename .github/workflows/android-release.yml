@@ -55,6 +55,7 @@ jobs:
             MINOR=$((MINOR+1)); PATCH=0
           else
             PATCH=$((PATCH+1))
+            echo "patch++"
           fi
 
           NEW_VERSION="$MAJOR.$MINOR.$PATCH"
